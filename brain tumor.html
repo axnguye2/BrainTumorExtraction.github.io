@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+	    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	    <title>Brain Tumor Extraction from MRI images</title>
+	    <style>
+	    	body{
+			    margin: 0;
+			    padding: 0;
+			    font-family: 'Roboto', sans-serif;
+			}
+			nav{
+			    position: fixed;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 80px;
+			   	background: rgba(0,0,0,0.4);
+			    padding: 0 100px ;
+			    box-sizing: border-box;
+			    box-shadow: 0 1px 1px rgba(0,0,0,0.12),
+			    0 2px 2px rgba(0,0,0,0.12),
+			    0 4px 4px rgba(0,0,0,0.12),
+			    0 8px 8px rgba(0,0,0,0.12),
+			    0 16px 16px rgba(0,0,0,0.12);
+			}
+			nav .brand{
+			    float: left;
+			    height: 100%;
+			    line-height: 80px;
+			}
+			nav .brand h2{
+			    margin: 0;
+			    padding: 0;
+			    color: #fff;
+			}
+			nav ul{
+			    float: right;
+			    display: flex;
+			    margin:0;
+			    padding: 0;
+			}
+			nav ul li{
+			    list-style: none;
+			}
+			nav ul li a{
+			    position: relative;
+			    display: block;
+			    height: 80px;
+			    line-height: 80px;
+			    padding: 0 20px;
+			    box-sizing: border-box;
+			    color: #fff;
+			    text-decoration: none;
+			    text-transform: uppercase;
+			    transition: 0.5s
+			}
+			nav ul li a:before{
+			    content: '';
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+			    background: #fff;
+			    transform-origin: right;
+			    z-index: -1;
+			    transform: scaleX(0);
+			    transition:  transform 0.5s;
+			}
+			nav ul li a:hover:before{
+			    transform-origin: left;
+			    transform: scaleX(1);
+			}
+			nav ul li a:hover{
+			    color: #262626;
+			}
+			#content {
+				float: left;
+				padding: 1em;
+			}
+			section.section2{
+			    padding: 150px;
+			}
+			.column {
+			  float: left;
+			  width: 25%;
+			  padding: 5px;
+			}
+			.column1 {
+			  float: left;
+			  width: 42%;
+			  padding: 5px;
+			}
+			.column2 {
+			  float: right;
+			  width: 13.5%;
+			  padding: 5px;
+			}
+			.column3 {
+			  float: right;
+			  width: 50%;
+			  padding: 5px;
+			}
+			/* Clear floats after image containers */
+			.row::after {
+			  content: "";
+			  clear: both;
+			  display: table;
+			}
+	    </style>
+	    
+		<meta name='description' content="Brain Tumor Extraction from MRI "Images />
+		<meta name="author" content="Anh Nguyen"/>
+		<meta name="keyboard" content="MatLab"/>
+	    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	    <link rel="stylesheet" href="style.css">
+	</head>
+
+	<body id="page-top" style="background-color: #e6ffe6">
+	  	<nav>
+		    <div class="brand">
+		        <h2>Brain Tumor Extraction from MRI images</h2>
+		    </div>
+		    <ul>
+		        <li><a href=""><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+		        <li><a href="#Obj"><i class="fa fa-info" aria-hidden="true"></i> Objectives</a></li>
+		        <li><a href="#Al"><i class="fa fa-info" aria-hidden="true"></i> Algorithm</a></li>
+		        <li><a href="#Result"><i class="fa fa-info" aria-hidden="true"></i> Result</a></li>
+		        <li><a href="#Limitation"><i class="fa fa-info" aria-hidden="true"></i> Limitation</a></li>
+		        <li><a href="#Future"><i class="fa fa-telegram" aria-hidden="true"></i> Future</a></li>
+		    </ul>
+		</nav>
+		<section class="section2">
+			<h1 id="Obj" style="color: #004d00">Objectives</h1>
+			<div id="content">
+				<ul>
+					<li>How to extract the skull that has similar intensity as the tumor</li>
+					<li>How to make the code be able to extracts all size tumor</li>
+				</ul>
+			</div>
+			<img src="/website/Extraction.github.io/ima/1.jpg" alt="">
+			<br><br>
+			<h2 id="Al" style="color: #004d00">Algorithm</h2>
+			<img src="/website/Extraction.github.io/ima/algorithm.jpg" alt="Algorithm" align="center">
+		
+			<h3 style="color: #006600">Grayscale Conversion</h3>
+			<ul>
+				<li>In grayscale, each pixel is shade of grey from 0 to 255 => the background has lower intensity than foreground.</li>
+				<li>Used ‘rgb2gray’ function to convert color images of Red, Green, Blue to grayscale images. As a result, thresholding the images will be easier and will provide better results.</li>
+			</ul>
+			<h3 style="color: #006600">Use Threshold Technique and For Loop to Eliminate the Skull></h3>
+			<p>Based on the different intensity between skull and brain inside, there are two steps to eliminate skull:</p>
+			<ol>
+				<li>Convert value of each pixel lower than 110 to 0 (background and dark gaps between skull and brain).</li>
+				<li>The For Loop executes each pixel by converting values higher than 0 (pixels at the skull) to 0 from the edge to the middle. Once the executed code reach area of pixel value equal 0 (dark gaps), For Loop will execute the next row.</li>
+			</ol>
+			<h3 style="color: #006600">Categorize Healthy Brain or Brain with Tumor</h3>
+			<p>Sum pixels [130,210] < 400 → No tumor detected.</p>
+			<div class="row">
+			  	<div class="column">
+			    	<img src="/website/Extraction.github.io/ima/3.png" alt="Input Image">
+			  	</div>
+			  	<div class="column">
+			    	<img src="/website/Extraction.github.io/ima/4.png" alt="Skull Free">
+			  	</div>
+			  	<div class="column">
+			    	<img src="/website/Extraction.github.io/ima/5.png" alt="">
+			  	</div>
+			</div>
+			<h3 style="color: #006600">Median Filter Following by Threshold Technique></h3>
+			<ul>
+				<li>Image of brain tumor after eliminating skull is passed through median filter for noise reduction.</li>
+				<li>Threshold technique and binarizing are also applied this time.</li>
+			</ul>
+			<img src="/website/Extraction.github.io/ima/6.png" alt="" width="512px" height="256px">
+			<h3 style="color: #006600">Processing the Image Using Multiple Morphological Methods</h3>
+			<ul>
+				<li>Morphological operation is a technique to transform the value of each pixel in the input images by comparing the corresponding pixel in the input image with its neighbors but still keep the output image of the same size.</li>
+				<li>Library functions for morphological operation are used to segment the binary image and detect the tumor area such as ‘imfill’, ‘imdilate’, ‘bwareaopen’,...</li>
+			</ul>
+			<div class="row">
+			  	<div class="column1">
+			    	<img src="/website/Extraction.github.io/ima/7.png" alt="Input Image">
+			  	</div>
+			  	<div class="column1">
+			    	<img src="/website/Extraction.github.io/ima/8.png" alt="Skull Free">
+			  	</div>
+			  	<div class="column2">
+			  		<img src="/website/Extraction.github.io/ima/9.png" alt="Grayscale Image After Using Morphological Operation" align="center">
+			  	</div>
+			</div>
+			<h3 style="color: #006600">Estimate Area Corresponding to Tumor Region </h3>
+			<div class="row">
+			  	<div class="column1">
+					<ul>
+						<li>Threshold Technique combining histogram is applied.</li>
+						<li>Then, return the area of actual number of pixels in the region of the image as a scalar to get tumor area by function ‘regionprops’</li>
+					</ul>
+				</div>
+				<div class="column1">
+			    	<img src="/website/Extraction.github.io/ima/10.png" alt="" width="488" height="214">
+			  	</div>
+			</div>
+			<h3 style="color: #006600">Extract Tumor and Calculate the Area of Tumor</h3>
+			<div class="row">
+			  	<div class="column">
+					<ul>
+						<li>Use size as a criterion to calculate tumor area and extract it out of the structure.</li>
+						<li>Some functions in Morphological Operation enhance the image of tumor such as ‘bwareaopen’ and ‘imfill’.</li>
+						<li>Calculate the area of tumor by function ‘bwarea’ in in^2.</li>
+					</ul>
+				</div>
+				<div class="column1">
+			    	<img src="/website/Extraction.github.io/ima/12.png" alt="" width="488" height="530">
+			  	</div>
+			</div>
+			<br><br>
+			<h1 id="Result" style="color: #004d00">Rate of Successful Detection</h1>
+			<p>After trials for all 38 data inputted images, there are 2 fail cases: #6 and #32</p>
+			<p> → The Successful Rate of the Code is 94.73%</p>
+			<div class="row">
+			  	<div class="column">
+			    	<img src="/website/Extraction.github.io/ima/13.png" alt="fail case 1">
+			  	</div>
+			  	<div class="column3">
+			    	<img src="/website/Extraction.github.io/ima/14.png" alt="fail case 2">
+			  	</div>
+			</div>
+			<br><br>
+			<h1 id="Limitation" style="color: #004d00">Limitation</h1>
+			<p>As stated, the code works efficiently with superior MRI brain images. However, there are failed cases</p>
+			<ol>
+				<li>A few metastasis tumors (filled with liquids).</li>
+				<p>→ Have same pixel with gray and white matter </p>
+				<p>→ Only show 40 - 50% area.</p>
+				<li>Only work for single tumor detection, and the tumor must brighter than the gray and white matter.</li>
+				<li>Malignant vs. Benign Tumor Differentiation Based on MRI</li>
+				<p>A systematic approach to compare the two is through their signal intensity, size, and depth. However, an MRI scan is limited in that the image of the tumor display a non-specific form which makes it hard to do the comparison.</p>
+			</ol>
+			<br><br>
+			<h1 id="Future" style="color: #004d00">Future</h1>
+			<h3>Later Enhance</h3>
+			<ul>
+				<li>The Limitation part can be improved by more filter steps to extract the skull.</li>
+				<li>Categorizing the tumor types (Malignant and Benign) can be done by analyzing the white and gray matter surrounding the tumor.</li>
+			</ul>
+			<h3>Implementation</h3>
+			<ul>
+				<li>The code can be used for Superior Brain Segmentation without any specialist MRI reading techniques required.</li>
+				<li>The code makes a cheaper rough diagnosis than specialist imaging.</li>
+			</ul>
+		</section>
+	</body>
+</html>
